@@ -1,4 +1,4 @@
-package com.example.demo.models;
+package com.example.demo.domains;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +23,10 @@ public class AppRole {
             generator = "role_sequence"
     )
     private Long id;
+    @Column(unique = true)
     private String name;
+
+    public AppRole(String name) {
+        this.name = name;
+    }
 }

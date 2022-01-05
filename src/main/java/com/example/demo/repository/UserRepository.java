@@ -1,6 +1,6 @@
-package com.example.demo.repos;
+package com.example.demo.repository;
 
-import com.example.demo.models.AppUser;
+import com.example.demo.domains.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<AppUser, Long> {

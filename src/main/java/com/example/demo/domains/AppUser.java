@@ -1,6 +1,5 @@
-package com.example.demo.models;
+package com.example.demo.domains;
 
-import com.example.demo.models.AppRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +27,7 @@ public class AppUser {
     private Long id;
     private String firstName;
     private String name;
+    @Column(unique = true)
     private String email;
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
