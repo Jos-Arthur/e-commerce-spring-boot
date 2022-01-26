@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserServiceImp implements UserService{
 
-    private ModelMapper modelMapper =  new ModelMapper();;
+    private ModelMapper modelMapper =  new ModelMapper();
     private final UserRepository userRepo;
     private final RoleRepository roleRepo;
     private final PasswordEncoder passwordEncoder;
@@ -36,6 +36,10 @@ public class UserServiceImp implements UserService{
 
     public AppRole saveRole(AppRole role) {
         return roleRepo.save(role);
+    }
+
+    public AppRole getRole (String name) {
+        return roleRepo.findByName(name);
     }
 
     @Override
@@ -51,18 +55,25 @@ public class UserServiceImp implements UserService{
 
     @Override
     public UserDto getUser(String email) {
-        return modelMapper.map(userRepo.findByEmail(email), UserDto.class);
+        AppUser user = userRepo.findByEmail(email);
+        log.info(user.toString());
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
     public List<UserDto> getUsers() {
-        return userRepo.findAll().stream().map(UserDto::new).collect(Collectors.toList());
+        return userRepo.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     public int deleteUser(Long id) {
         userRepo.deleteById(id);
         return 0;
+    }
+
+    private UserDto convertToDto(AppUser user) {
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+        return userDto;
     }
 }
 

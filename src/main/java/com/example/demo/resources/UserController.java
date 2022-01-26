@@ -26,8 +26,10 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user){
+        AppRole role = userService.getRole("ROLE_USER");
+        user.getRoles().add(role);
         userService.saveUser(user);
-        userService.addRoleToUser(user.getEmail(), "ROLE_USER");
+//        userService.addRoleToUser(user.getEmail(), "ROLE_USER");
         return ResponseEntity.ok().body(user);
     }
 
@@ -36,9 +38,9 @@ public class UserController {
         return ResponseEntity.ok().body(userService.saveRole(role));
     }
 
-    @GetMapping(path = {"/{id}"})
-    public ResponseEntity<UserDto> getUser(@PathVariable String id){
-        return ResponseEntity.ok().body(userService.getUser(id));
+    @GetMapping(path = {"/{email}"})
+    public ResponseEntity<UserDto> getUser(@PathVariable String email){
+        return ResponseEntity.ok().body(userService.getUser(email));
     }
 
     @DeleteMapping(path = {"/{id}"})

@@ -21,6 +21,8 @@ public interface UserService {
 
     public AppRole saveRole(AppRole role);
 
+    public AppRole getRole (String name);
+
     public void addRoleToUser(String email, String roleName);
 
     public UserDto getUser(String email);

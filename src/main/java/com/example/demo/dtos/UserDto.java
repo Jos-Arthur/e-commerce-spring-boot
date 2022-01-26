@@ -2,43 +2,31 @@ package com.example.demo.dtos;
 
 import com.example.demo.domains.AppRole;
 import com.example.demo.domains.AppUser;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
+@Setter
 public class UserDto {
-    private AppUser user;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private Boolean isEnabled;
+    private Boolean isBlocked;
+    private Collection<AppRole> roles = new ArrayList<>();
 
-
-    public UserDto(AppUser user) {
-        this.user = user;
+    public String getName() {
+        return this.firstName+" "+this.lastName;
     }
 
-    public String getFirstName () {
-        return this.user.getFirstName();
-    }
-
-    public String getLastName () {
-        return this.user.getLastName();
-    }
-
-    public String getName(){
-        return this.user.getLastName() + ' ' + this.user.getFirstName();
-    }
-
-    public String getEmail(){
-        return this.user.getEmail();
-    }
-
-    public Long getId (){
-        return this.user.getId();
-    }
-
-    public List getRole(){
+    public List getRoles(){
         List list = new ArrayList<>();
-        Collection<AppRole> roles = this.user.getRoles();
-        for(AppRole role:roles){
+        for(AppRole role:this.roles){
             list.add(role.getName());
         }
        return list;
