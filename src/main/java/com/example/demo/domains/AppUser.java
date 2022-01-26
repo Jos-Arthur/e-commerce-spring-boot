@@ -1,8 +1,10 @@
 package com.example.demo.domains;
 
+import com.sun.tools.internal.xjc.model.CDefaultValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -26,11 +28,13 @@ public class AppUser {
     )
     private Long id;
     private String firstName;
-    private String name;
+    private String lastName;
     @Column(unique = true)
     private String email;
+    private String phone;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    private Boolean isEnabled;
+    private Boolean isBlocked;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<AppRole> roles = new ArrayList<>();
-
 }

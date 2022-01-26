@@ -6,45 +6,26 @@ import com.example.demo.dtos.UserDto;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.modelmapper.ModelMapper;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional
-@Slf4j
-public class UserService {
-    private final UserRepository userRepo;
-    private final RoleRepository roleRepo;
+public interface UserService {
 
-    public UserService(UserRepository userRepo, RoleRepository roleRepo) {
-        this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
-    }
+    public AppUser saveUser(AppUser user);
 
-    public AppUser saveUser(AppUser user) {
-        log.info("SAVING NEW USER");
-        return userRepo.save(user);
-    }
+    public AppRole saveRole(AppRole role);
 
-    public AppRole saveRole(AppRole role) {
-        return roleRepo.save(role);
-    }
+    public void addRoleToUser(String email, String roleName);
 
-    public void addRoleToUser(String email, String roleName) {
-        AppUser user = userRepo.findByEmail(email);
-        AppRole role = roleRepo.findByName(roleName);
-        user.getRoles().add(role);
-    }
+    public UserDto getUser(String email);
 
-    public AppUser getUser(String email) {
-        return userRepo.findByEmail(email);
-    }
+    public List<UserDto> getUsers();
 
-    public List<UserDto> getUsers() {
-        return userRepo.findAll().stream().map(UserDto::new).collect(Collectors.toList());
-    }
+    public int deleteUser(Long id);
 }

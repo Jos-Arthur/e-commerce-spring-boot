@@ -8,7 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class UserDto {
-    private final AppUser user;
+    private AppUser user;
+
 
     public UserDto(AppUser user) {
         this.user = user;
@@ -19,15 +20,19 @@ public class UserDto {
     }
 
     public String getLastName () {
-        return this.user.getName();
+        return this.user.getLastName();
     }
 
     public String getName(){
-        return this.user.getName() + ' ' + this.user.getFirstName();
+        return this.user.getLastName() + ' ' + this.user.getFirstName();
     }
 
     public String getEmail(){
         return this.user.getEmail();
+    }
+
+    public Long getId (){
+        return this.user.getId();
     }
 
     public List getRole(){
