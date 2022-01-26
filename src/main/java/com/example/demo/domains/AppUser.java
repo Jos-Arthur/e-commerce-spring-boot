@@ -1,6 +1,5 @@
 package com.example.demo.domains;
 
-import com.sun.tools.internal.xjc.model.CDefaultValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
