@@ -1,8 +1,6 @@
 package com.example.demo.domains;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -14,6 +12,8 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table
+@Getter
+@Setter
 public class AppUser {
     @Id
     @SequenceGenerator(

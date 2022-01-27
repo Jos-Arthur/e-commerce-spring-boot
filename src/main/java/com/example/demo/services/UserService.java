@@ -25,7 +25,9 @@ public interface UserService {
 
     public void addRoleToUser(String email, String roleName);
 
-    public UserDto getUser(String email);
+    public UserDto getUserDto(String email);
+
+    public AppUser getUser (String mail);
 
     public List<UserDto> getUsers();
 

@@ -1,16 +1,28 @@
 package com.example.demo.resources;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.domains.AppRole;
 import com.example.demo.domains.AppUser;
 import com.example.demo.dtos.UserDto;
 import com.example.demo.services.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Controller
 @RequestMapping("/api/users")
@@ -40,7 +52,7 @@ public class UserController {
 
     @GetMapping(path = {"/{email}"})
     public ResponseEntity<UserDto> getUser(@PathVariable String email){
-        return ResponseEntity.ok().body(userService.getUser(email));
+        return ResponseEntity.ok().body(userService.getUserDto(email));
     }
 
     @DeleteMapping(path = {"/{id}"})

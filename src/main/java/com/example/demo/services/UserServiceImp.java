@@ -54,10 +54,15 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public UserDto getUser(String email) {
+    public UserDto getUserDto(String email) {
         AppUser user = userRepo.findByEmail(email);
         log.info(user.toString());
         return modelMapper.map(user, UserDto.class);
+    }
+
+    @Override
+    public AppUser getUser(String email) {
+        return userRepo.findByEmail(email);
     }
 
     @Override
