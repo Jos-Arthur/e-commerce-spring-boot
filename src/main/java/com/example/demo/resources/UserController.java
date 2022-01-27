@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.domains.AppRole;
 import com.example.demo.domains.AppUser;
 import com.example.demo.dtos.UserDto;
+import com.example.demo.services.MailVerificationService;
 import com.example.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +31,21 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final MailVerificationService mailVerificationService;
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getUsers () {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
-    @PostMapping
+    @PostMapping("/signup")
     public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user){
         AppRole role = userService.getRole("ROLE_USER");
+        log.info("ROLE:"+role.toString());
         user.getRoles().add(role);
         userService.saveUser(user);
-//        userService.addRoleToUser(user.getEmail(), "ROLE_USER");
+        mailVerificationService.sendVerificationMail(user);
+        //userService.addRoleToUser(user.getEmail(), "ROLE_USER");
         return ResponseEntity.ok().body(user);
     }
 
