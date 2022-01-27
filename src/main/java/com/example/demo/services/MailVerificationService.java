@@ -27,7 +27,6 @@ public class MailVerificationService {
         Algorithm algorithm = Algorithm.HMAC256("secret123467890".getBytes());
         String domain = env.getProperty("domain");
         String sender = env.getProperty("spring.mail.username");
-        log.info(domain);
         String confirmationToken = JWT.create()
                 .withSubject(user.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis()+ 24*60*60*1000))
@@ -38,11 +37,21 @@ public class MailVerificationService {
         tokenrepository.save(token);
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(user.getEmail());
-        mailMessage.setSubject("Complete Registration!");
+        mailMessage.setSubject("Account Verification!");
         mailMessage.setFrom(sender);
         mailMessage.setText("To confirm your account, please click here : "
-                +"http://localhost:8080/confirm-account?token="+token.getConfirmationToken());
+                +domain+"verifyEmail?token="+token.getConfirmationToken());
 
+        emailSenderService.sendEmail(mailMessage);
+    }
+
+    public void sendVerifiedMail (AppUser user) {
+        String sender = env.getProperty("spring.mail.username");
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(user.getEmail());
+        mailMessage.setSubject("Registration Completed!");
+        mailMessage.setFrom(sender);
+        mailMessage.setText("Hello "+user.getFirstName()+";Your email has been verified successfully. Thanks for joining us!");
         emailSenderService.sendEmail(mailMessage);
     }
 }

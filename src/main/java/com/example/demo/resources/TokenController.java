@@ -6,13 +6,20 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.domains.AppRole;
 import com.example.demo.domains.AppUser;
+import com.example.demo.domains.ConfirmationToken;
+import com.example.demo.repository.TokenRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.services.MailVerificationService;
 import com.example.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +38,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class TokenController {
 
     private final UserService userService;
+    private TokenRepository confirmationTokenRepository;
+    private UserRepository userRepository;
+    private final MailVerificationService mailVerificationService;
+
 
     @GetMapping("/api/refreshToken")
     public void resfrehToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -72,6 +83,21 @@ public class TokenController {
         }else{
             throw new RuntimeException("");
         }
+    }
+    @GetMapping("/api/verifyEmail")
+    public ResponseEntity<String> verifyEmail (@RequestParam("token")String confirmationToken) {
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        if(token != null) {
+            AppUser user = userRepository.findByEmail(token.getUser().getEmail());
+            user.setIsEnabled(true);
+            userRepository.save(user);
+            confirmationTokenRepository.delete(token);
+            mailVerificationService.sendVerifiedMail(user);
+        }
+        else {
+            return ResponseEntity.ok().body("Invalid Email");
+        }
+        return ResponseEntity.ok().body("Email verified successfully");
     }
 
 }

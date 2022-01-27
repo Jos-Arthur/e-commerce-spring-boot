@@ -1,6 +1,7 @@
 package com.example.demo.domains;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table
+@RequiredArgsConstructor
 public class ConfirmationToken {
 
     @Id
@@ -25,8 +27,7 @@ public class ConfirmationToken {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
     private AppUser user;
 
