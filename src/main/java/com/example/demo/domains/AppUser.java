@@ -27,8 +27,8 @@ public class AppUser {
     private String email;
     private String phone;
     private String password;
-    private Boolean isEnabled;
-    private Boolean isBlocked;
+    private Boolean isEnabled = false;
+    private Boolean isBlocked = false;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<AppRole> roles = new ArrayList<>();
 }
