@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -31,4 +32,6 @@ public class AppUser {
     private Boolean isBlocked = false;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<AppRole> roles = new ArrayList<>();
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate = new Date();
 }

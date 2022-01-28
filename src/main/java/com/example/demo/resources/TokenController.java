@@ -95,7 +95,7 @@ public class TokenController {
             mailVerificationService.sendVerifiedMail(user);
         }
         else {
-            return ResponseEntity.ok().body("Invalid Email");
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body("Email verified successfully");
     }

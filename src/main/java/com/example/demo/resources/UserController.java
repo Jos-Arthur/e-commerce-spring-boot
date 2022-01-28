@@ -41,11 +41,13 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<AppUser> saveUser(@RequestBody AppUser user){
         AppRole role = userService.getRole("ROLE_USER");
-        log.info("ROLE:"+role.toString());
+        AppRole role2 = userService.getRole("ROLE_ADMIN");
+
         user.getRoles().add(role);
+        user.getRoles().add(role2);
+
         userService.saveUser(user);
-        mailVerificationService.sendVerificationMail(user);
-        //userService.addRoleToUser(user.getEmail(), "ROLE_USER");
+        mailVerificationService.sendUserVerificationMail(user);
         return ResponseEntity.ok().body(user);
     }
 
@@ -60,7 +62,7 @@ public class UserController {
     }
 
     @DeleteMapping(path = {"/{id}"})
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+    public ResponseEntity<String> deleteUser(@PathVariable UUID id){
         userService.deleteUser(id);
         return ResponseEntity.ok().body("User deleted successfully");
     }

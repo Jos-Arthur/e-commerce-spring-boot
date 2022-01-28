@@ -25,14 +25,24 @@ public class ConfirmationToken {
     private String confirmationToken;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private Date createdDate = new Date();
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id", referencedColumnName = "id")
+    @JoinColumn(nullable = true, name = "user_id", referencedColumnName = "id")
     private AppUser user;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true, referencedColumnName = "id")
+    private Shop shop;
 
     public ConfirmationToken(AppUser user, String token) {
         this.user = user;
+        createdDate = new Date();
+        confirmationToken = token;
+    }
+
+    public ConfirmationToken(Shop shop, String token) {
+        this.shop = shop;
         createdDate = new Date();
         confirmationToken = token;
     }

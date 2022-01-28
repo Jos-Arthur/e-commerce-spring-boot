@@ -37,8 +37,13 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/verifyEmail/**").permitAll();
         http.authorizeRequests().antMatchers("/api/refreshToken/**").permitAll();
         http.authorizeRequests().antMatchers(POST, "/api/users/signup/**").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/categories/**").permitAll();
+        http.authorizeRequests().antMatchers(POST, "/api/categories/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(POST, "/api/shops/**").hasAnyAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(GET, "/api/shops/**").permitAll();
+        http.authorizeRequests().antMatchers(DELETE, "/api/shops/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(DELETE, "/api/users/**").hasAnyAuthority("ROLE_ADMIN");
-        http.authorizeRequests().antMatchers(GET, "/api/users/**").hasAnyAuthority("ROLE_USER");
+        http.authorizeRequests().antMatchers(GET, "/api/users/**").permitAll();
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

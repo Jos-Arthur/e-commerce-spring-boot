@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -56,7 +57,6 @@ public class UserServiceImp implements UserService{
     @Override
     public UserDto getUserDto(String email) {
         AppUser user = userRepo.findByEmail(email);
-        log.info(user.toString());
         return modelMapper.map(user, UserDto.class);
     }
 
@@ -71,7 +71,7 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public int deleteUser(Long id) {
+    public int deleteUser(UUID id) {
         userRepo.deleteById(id);
         return 0;
     }

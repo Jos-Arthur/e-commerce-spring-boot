@@ -1,7 +1,6 @@
 package com.example.demo.dtos;
 
 import com.example.demo.domains.AppRole;
-import com.example.demo.domains.AppUser;
 import lombok.Getter;
 import lombok.Setter;
 
