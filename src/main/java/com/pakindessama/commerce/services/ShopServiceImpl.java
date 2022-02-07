@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,9 +36,7 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public void addShop(Shop shop) {
-        log.info("YYYYYYYYYYY"+shop.toString());
         AppUser user = userService.getUser(shop.getEmail());
-        shop.setAdmin(user);
         shopRepos.save(shop);
     }
 
@@ -52,8 +51,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Optional<Shop> getShop(UUID id) {
-        return shopRepos.findById(id);
+    public Shop getShop(UUID id) {
+        return shopRepos.findById(id).get();
     }
 
     @Override
@@ -64,8 +63,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public List<ShopDto> getShops() {
-        return shopRepos.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<ShopDto> getShops(Pageable pageable) {
+        return shopRepos.findAll(pageable).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
@@ -83,21 +82,8 @@ public class ShopServiceImpl implements ShopService {
         return shop;
     }
 
-    @Override
-    public void setShopAdmin(UUID id, String email) {
-        AppUser user = userService.getUser(email);
-        Optional<Shop> optionalShop = shopRepos.findById(id);
-        Shop shop = optionalShop.get();
-        if(shop!=null){
-            shop.setAdmin(user);
-            shopRepos.save(shop);
-        }
-
-    }
-
-
     private ShopDto convertToDto(Shop shop) {
-        ShopDto shopDtoDto = modelMapper.map(shop, ShopDto.class);
-        return shopDtoDto;
+        ShopDto shopDto = modelMapper.map(shop, ShopDto.class);
+        return shopDto;
     }
 }

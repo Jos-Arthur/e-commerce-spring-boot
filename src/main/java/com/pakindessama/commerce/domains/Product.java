@@ -8,34 +8,39 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
-@Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Table
+@Entity
 @Getter
 @Setter
-public class AppUser {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Product {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
     private UUID id;
-    private String firstName;
-    private String lastName;
-    @Column(unique = true)
-    private String email;
-    private String phone;
-    private String password;
-    private Boolean isEnabled = false;
-    private Boolean isBlocked = false;
+
+    @Column(updatable = true, nullable = false)
+    private String label;
+
+    private Float price;
+    private String description;
+    private String[] photos;
+    private boolean isEnabled = false;
+    private boolean isBlocked = false;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<AppRole> roles = new ArrayList<>();
+    @JoinColumn(nullable = true)
+    private Collection<Category> categories = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shop_id", nullable = true)
     private Shop shop;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate = new Date();
+
+    public boolean getIsEnabled(){
+        return this.isEnabled;
+    }
 }

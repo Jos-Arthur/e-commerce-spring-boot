@@ -2,6 +2,7 @@ package com.pakindessama.commerce.services;
 
 import com.pakindessama.commerce.domains.Shop;
 import com.pakindessama.commerce.dtos.ShopDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,9 +20,9 @@ public interface ShopService {
 
     public void deleteShop(UUID id);
 
-    public Optional<Shop> getShop(UUID id);
+    public Shop getShop(UUID id);
 
-    public List<ShopDto> getShops();
+    public List<ShopDto> getShops(Pageable pageable);
 
     public ShopDto getShopDto(UUID id);
 
@@ -29,5 +30,4 @@ public interface ShopService {
 
     public Shop disableShop(UUID id);
 
-    public void setShopAdmin(UUID shop, String email);
 }

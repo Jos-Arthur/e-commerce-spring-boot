@@ -1,10 +1,10 @@
 package com.pakindessama.commerce.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Data
@@ -17,6 +17,7 @@ public class Shop {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(updatable = false, nullable = false)
+
     private UUID id;
     private String name;
     private String address;
@@ -28,12 +29,16 @@ public class Shop {
     private boolean isEnabled = false;
     private boolean isBlocked = false;
 
+
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(nullable = true, name = "super_manager", referencedColumnName = "id")
+//    private AppUser admin;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdDate = new Date();
+
     public boolean getIsEnabled(){
         return this.isEnabled;
     }
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(nullable = true, name = "super_manager", referencedColumnName = "id")
-    private AppUser admin;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate = new Date();
+
 }

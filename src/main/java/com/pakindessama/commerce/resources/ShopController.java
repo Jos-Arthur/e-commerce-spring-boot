@@ -8,6 +8,7 @@ import com.pakindessama.commerce.services.MailVerificationService;
 import com.pakindessama.commerce.services.ShopService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,8 @@ public class ShopController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ShopDto>> getShops () {
-        return ResponseEntity.ok().body(shopService.getShops());
+    public ResponseEntity<List<ShopDto>> getShops (Pageable pageable) {
+        return ResponseEntity.ok().body(shopService.getShops(pageable));
     }
 
     @GetMapping(path = {"/{id}"})
