@@ -20,6 +20,8 @@ public interface CategoryService {
 
     public Category getCategory(UUID id);
 
+    public Category getCategoryByName(String name);
+
     public List<CategoryDto> getCategories();
 
     public CategoryDto getCategoryDto(UUID id);

@@ -48,6 +48,11 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    public Category getCategoryByName(String name) {
+        return categoryRepository.findByName(name);
+    }
+
+    @Override
     public List<CategoryDto> getCategories() {
         return categoryRepository.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
     }

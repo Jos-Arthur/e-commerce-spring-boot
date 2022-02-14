@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.http.HttpMethod.*;
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static org.springframework.security.config.http.SessionCreationPolicy.*;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +31,7 @@ public class securityConfig extends WebSecurityConfigurerAdapter {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http.sessionManagement().sessionCreationPolicy(IF_REQUIRED).maximumSessions(1);
         http.authorizeRequests().antMatchers(DELETE, "/api/login/**").permitAll();
         http.authorizeRequests().antMatchers("/api/verifyEmail/**").permitAll();
         http.authorizeRequests().antMatchers("/api/refreshToken/**").permitAll();

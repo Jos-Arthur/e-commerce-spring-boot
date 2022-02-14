@@ -54,14 +54,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDto> getProductsByShop(UUID shopId) {
+    public List<ProductDto> getProductsByShop(UUID shopId, Pageable pageable) {
         Shop shop = shopRepository.findById(shopId).get();
-        return productRepository.findByShop(shop).stream().map(this::convertToDto).collect(Collectors.toList());
+        return productRepository.findByShop(shop, pageable).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductDto> getProductsByCategory(UUID categoryId) {
-        return productRepository.findAllByCategories_id(categoryId).stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<ProductDto> getProductsByCategory(UUID categoryId, Pageable pageable) {
+        return productRepository.findAllByCategories_id(categoryId, pageable).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override

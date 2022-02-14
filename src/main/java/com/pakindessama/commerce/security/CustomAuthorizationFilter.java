@@ -29,14 +29,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/refreshToken") || request.getServletPath().equals("/api/users/signup")
+        if(request.getServletPath().equals("/api/login") || request.getServletPath().equals("/api/logout") || request.getServletPath().equals("/api/refreshToken") || request.getServletPath().equals("/api/users/signup")
             || request.getServletPath().equals("/api/verifyEmail")){
+            log.info("********");
             filterChain.doFilter(request, response);
         } else{
-            String authorizationheader = request.getHeader(AUTHORIZATION);
-            if(authorizationheader != null && authorizationheader.startsWith("Bearer ")){
+            String authorizationHeader = request.getHeader(AUTHORIZATION);
+            if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
                try{
-                   String token = authorizationheader.substring("Bearer ".length());
+                   String token = authorizationHeader.substring("Bearer ".length());
                    Algorithm algorithm = Algorithm.HMAC256("secret123467890".getBytes());
                    JWTVerifier verifier = JWT.require(algorithm).build();
                    DecodedJWT decodeJWT = verifier.verify(token);

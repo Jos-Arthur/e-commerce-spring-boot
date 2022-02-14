@@ -3,6 +3,7 @@ package com.pakindessama.commerce.services;
 import com.pakindessama.commerce.domains.AppRole;
 import com.pakindessama.commerce.domains.AppUser;
 import com.pakindessama.commerce.dtos.UserDto;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -24,7 +25,7 @@ public interface UserService {
 
     public AppUser getUser (String mail);
 
-    public List<UserDto> getUsers();
+    public List<UserDto> getUsers(Pageable pageable);
 
     public int deleteUser(UUID id);
 }

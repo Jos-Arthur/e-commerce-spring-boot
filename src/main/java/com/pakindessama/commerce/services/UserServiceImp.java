@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -66,8 +67,8 @@ public class UserServiceImp implements UserService{
     }
 
     @Override
-    public List<UserDto> getUsers() {
-        return userRepo.findAll().stream().map(this::convertToDto).collect(Collectors.toList());
+    public List<UserDto> getUsers(Pageable pageable) {
+        return userRepo.findAll(pageable).stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     @Override

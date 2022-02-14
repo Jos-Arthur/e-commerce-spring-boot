@@ -30,10 +30,6 @@ public class Shop {
     private boolean isBlocked = false;
 
 
-//    @OneToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(nullable = true, name = "super_manager", referencedColumnName = "id")
-//    private AppUser admin;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate = new Date();
 

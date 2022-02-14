@@ -29,7 +29,7 @@ public class AppUser {
     private Boolean isEnabled = false;
     private Boolean isBlocked = false;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> roles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)

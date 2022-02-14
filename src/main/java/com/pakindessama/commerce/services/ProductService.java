@@ -20,9 +20,9 @@ public interface ProductService {
 
     public List<ProductDto> getProducts(Pageable pageable);
 
-    public List<ProductDto> getProductsByShop(UUID shopId);
+    public List<ProductDto> getProductsByShop(UUID shopId, Pageable pageable);
 
-    public  List<ProductDto> getProductsByCategory(UUID categoryId);
+    public  List<ProductDto> getProductsByCategory(UUID categoryId, Pageable pageable);
 
     public void editProduct(Product product);
 

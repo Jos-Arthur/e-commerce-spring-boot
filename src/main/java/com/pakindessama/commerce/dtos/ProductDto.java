@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -21,8 +22,16 @@ public class ProductDto {
     private String[] images;
     private String description;
     private Collection<Category> categories = new ArrayList<>();
-
+    private Date createdDate;
     private Shop shop;
+
+//    public ArrayList<String> getCategories(){
+//        ArrayList<String> cat = new ArrayList<>();
+//        for(Category item:categories){
+//            cat.add(item.getName());
+//        }
+//        return cat;
+//    }
 
     private boolean isEnabled = false;
     private boolean isBlocked = false;
